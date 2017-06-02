@@ -33,7 +33,7 @@ if (!empty($CFG->loginhttps)) {
 $config = array(
     $saml2auth->spname => array(
         'saml:SP',
-        'entityID' => "$wwwroot/auth/saml2/sp/metadata.php",
+        'entityID' => ($saml2auth->config->entityid_pers)?$saml2auth->config->entityid_pers:"$wwwroot/auth/saml2/sp/metadata.php",
         'idp' => $saml2auth->config->entityid,
         'NameIDPolicy' => null,
         'OrganizationName' => array(

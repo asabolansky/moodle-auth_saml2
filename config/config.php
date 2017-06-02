@@ -31,7 +31,7 @@ if (!empty($CFG->loginhttps)) {
 }
 
 $config = array(
-    'baseurlpath'       => $wwwroot . '/auth/saml2/sp/',
+    'baseurlpath'       => ($saml2auth->config->baseurl)?$saml2auth->config->baseurl:$wwwroot . '/auth/saml2/sp/',
     'certdir'           => $saml2auth->certdir,
     'debug'             => $saml2auth->config->debug ? true : false,
     'logging.level'     => $saml2auth->config->debug ? SimpleSAML_Logger::DEBUG : SimpleSAML_Logger::ERR,

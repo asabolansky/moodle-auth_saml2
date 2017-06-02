@@ -88,3 +88,14 @@ $string['test_auth'] = '<a href="{$a}">Test isAuthenticated and login</a>';
 
 $string['alterlogout'] = 'Alternative Logout URL';
 $string['alterlogout_help'] = 'The URL to redirect a user after all internal logout mechanisms are run';
+
+
+
+$string['entityid_pers'] = 'Entity ID';
+$string['baseurl'] = 'Base URL';
+
+$string['entityid_pers_help'] = 'Entity ID';
+$string['baseurl_help'] = 'Base URL';
+
+
+
