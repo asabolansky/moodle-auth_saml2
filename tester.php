@@ -24,7 +24,7 @@
 
 global $CFG;
 
-echo '<p>' . get_string('test_passive', 'auth_saml2', $CFG->wwwroot . '/auth/saml2/test.php') . '</p>';
-echo '<p>' . get_string('test_auth', 'auth_saml2', $CFG->wwwroot . '/auth/saml2/test.php') . '</p>';
+echo '<p>' . get_string('test_passive', 'auth_saml2', $CFG->wwwroot . '/auth/saml2_extendido/test.php') . '</p>';
+echo '<p>' . get_string('test_auth', 'auth_saml2', $CFG->wwwroot . '/auth/saml2_extendido/test.php') . '</p>';
 
 

@@ -17,7 +17,7 @@
 /**
  * Admin config settings page
  *
- * @package    auth_saml2
+ * @package    auth_saml2_extendido
  * @copyright  Brendan Heywood <brendan@catalyst-au.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -25,47 +25,47 @@
 $yesno = array(get_string('no'), get_string('yes'));
 
 if(!function_exists('mcrypt_encrypt')) {
-    echo $OUTPUT->notification(get_string('mcryptnotfound', 'auth_saml2'), 'error');
+    echo $OUTPUT->notification(get_string('mcryptnotfound', 'auth_saml2_extendido'), 'error');
 }
 
 ?>
 <table cellspacing="0" cellpadding="5" border="0" class="generaltable">
 <tr valign="top">
     <?php $field = 'idpmetadata' ?>
-    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2') ?></label></td>
+    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2_extendido') ?></label></td>
     <td><textarea columns="80" rows="5" name="<?php echo $field ?>" style="width: 100%"
     ><?php print $config->$field ?></textarea><br>
         <?php if (isset($err[$field])) { echo $OUTPUT->notification($err[$field], 'notifyfailure'); } ?>
-        <?php print_string($field.'_help', 'auth_saml2') ?></td>
+        <?php print_string($field.'_help', 'auth_saml2_extendido') ?></td>
 </tr>
 <tr valign="top">
     <?php $field = 'idpname' ?>
-    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2') ?></label></td>
+    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2_extendido') ?></label></td>
     <td><input type="text" size="40" name="<?php echo $field ?>" value="<?php print $config->$field ?>" placeholder="<?php print $config->idpdefaultname ?>"><br>
         <?php if (isset($err[$field])) { echo $OUTPUT->notification($err[$field], 'notifyfailure'); } ?>
-        <?php print_string($field.'_help', 'auth_saml2') ?></td>
+        <?php print_string($field.'_help', 'auth_saml2_extendido') ?></td>
 </tr>
 <tr valign="top">
     <?php $field = 'showidplink' ?>
-    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2') ?></label></td>
+    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2_extendido') ?></label></td>
     <td><?php echo html_writer::select($yesno, $field, $config->$field, false) ?>
         <?php if (isset($err[$field])) { echo $OUTPUT->notification($err[$field], 'notifyfailure'); } ?>
-        <?php print_string($field.'_help', 'auth_saml2') ?></td>
+        <?php print_string($field.'_help', 'auth_saml2_extendido') ?></td>
 </tr>
 <tr valign="top">
     <?php $field = 'debug' ?>
-    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2') ?></label></td>
+    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2_extendido') ?></label></td>
     <td><?php echo html_writer::select($yesno, $field, $config->$field, false) ?>
         <?php if (isset($err[$field])) { echo $OUTPUT->notification($err[$field], 'notifyfailure'); } ?>
-        <?php print_string($field.'_help', 'auth_saml2', "$CFG->wwwroot/auth/saml2/debug.php") ?></td>
+        <?php print_string($field.'_help', 'auth_saml2_extendido', "$CFG->wwwroot/auth/saml2/debug.php") ?></td>
 </tr>
 <tr valign="top">
     <?php $field = 'certificatelock' ?>
-    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2') ?></label></td>
+    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2_extendido') ?></label></td>
     <td>
         <?php
 
-        $saml2auth = new auth_plugin_saml2();
+        $saml2auth = new auth_plugin_saml2_extendido();
         $certfiles = array($saml2auth->certpem, $saml2auth->certcrt);
         $enabled = true;
 
@@ -104,7 +104,7 @@ if(!function_exists('mcrypt_encrypt')) {
 </tr>
 <tr valign="top">
     <?php $field = 'certificate' ?>
-    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2') ?></label></td>
+    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2_extendido') ?></label></td>
     <td>
         <?php
         $link = "location.href='". $CFG->wwwroot . "/auth/saml2/regenerate.php'";
@@ -127,28 +127,28 @@ if(!function_exists('mcrypt_encrypt')) {
 </tr>
 <tr valign="top">
     <?php $field = 'spmetadata' ?>
-    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2') ?></label></td>
+    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2_extendido') ?></label></td>
     <td><?php print_string($field.'_help', 'auth_saml2', "$CFG->wwwroot/auth/saml2/sp/metadata.php") ?>
         <?php if (isset($err[$field])) { echo $OUTPUT->notification($err[$field], 'notifyfailure'); } ?>
     </td>
 </tr>
 <tr valign="top">
     <?php $field = 'spmetadatasign' ?>
-    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2') ?></label></td>
+    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2_extendido') ?></label></td>
     <td><?php echo html_writer::select($yesno, $field, $config->$field, false) ?>
         <?php if (isset($err[$field])) { echo $OUTPUT->notification($err[$field], 'notifyfailure'); } ?>
         <?php print_string($field.'_help', 'auth_saml2') ?></td>
 </tr>
 <tr valign="top">
     <?php $field = 'duallogin' ?>
-    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2') ?></label></td>
+    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2_extendido') ?></label></td>
     <td><?php echo html_writer::select($yesno, $field, $config->$field, false) ?>
         <?php if (isset($err[$field])) { echo $OUTPUT->notification($err[$field], 'notifyfailure'); } ?>
         <?php print_string($field.'_help', 'auth_saml2') ?></td>
 </tr>
 <tr valign="top">
     <?php $field = 'anyauth' ?>
-    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2') ?></label></td>
+    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2_extendido') ?></label></td>
     <td><?php echo html_writer::select($yesno, $field, $config->$field, false) ?>
         <?php if (isset($err[$field])) { echo $OUTPUT->notification($err[$field], 'notifyfailure'); } ?>
         <?php print_string($field.'_help', 'auth_saml2') ?></td>
@@ -162,7 +162,7 @@ $fields = array(
 ?>
 <tr valign="top">
     <?php $field = 'mapping' ?>
-    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2') ?></label></td>
+    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2_extendido') ?></label></td>
     <td>
         <input type="text" size="25" name="idpattr" value="<?php print $config->idpattr ?>">
         <?php echo html_writer::select($fields, 'mdlattr', $config->mdlattr, false) ?>
@@ -171,45 +171,52 @@ $fields = array(
 </tr>
 <tr valign="top">
     <?php $field = 'tolower' ?>
-    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2') ?></label></td>
+    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2_extendido') ?></label></td>
     <td><?php echo html_writer::select($yesno, $field, $config->$field, false) ?>
         <?php if (isset($err[$field])) { echo $OUTPUT->notification($err[$field], 'notifyfailure'); } ?>
         <?php print_string($field.'_help', 'auth_saml2') ?></td>
 </tr>
 <tr valign="top">
     <?php $field = 'autocreate' ?>
-    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2') ?></label></td>
+    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2_extendido') ?></label></td>
     <td><?php echo html_writer::select($yesno, $field, $config->$field, false) ?>
         <?php if (isset($err[$field])) { echo $OUTPUT->notification($err[$field], 'notifyfailure'); } ?>
         <?php print_string($field.'_help', 'auth_saml2') ?></td>
 </tr>
 <tr valign="top">
     <?php $field = 'alterlogout' ?>
-    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2') ?></label></td>
+    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2_extendido') ?></label></td>
     <td><input type="text" size="40" name="<?php echo $field ?>" value="<?php print $config->$field ?>">
         <?php if (isset($err[$field])) { echo $OUTPUT->notification($err[$field], 'notifyfailure'); } ?>
         <?php print_string($field.'_help', 'auth_saml2') ?></td>
 </tr>
 <tr valign="top">
     <?php $field = 'sspversion' ?>
-    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2') ?></label></td>
-    <td><?php $auth = new auth_plugin_saml2(); print($auth->get_ssp_version()); ?></td>
+    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2_extendido') ?></label></td>
+    <td><?php $auth = new auth_plugin_saml2_extendido(); print($auth->get_ssp_version()); ?></td>
 </tr>
 
 <tr valign="top">
     <?php $field = 'entityid_pers' ?>
-    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2') ?></label></td>
+    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2_extendido') ?></label></td>
     <td><input type="text" size="40" name="<?php echo $field ?>" value="<?php print $config->$field ?>" ><br>
      <?php if (isset($err[$field])) { echo $OUTPUT->notification($err[$field], 'notifyfailure'); } ?>
-        <?php print_string($field.'_help', 'auth_saml2') ?></td>
+        <?php print_string($field.'_help', 'auth_saml2_extendido') ?></td>
 </tr>
 <tr valign="top">
     <?php $field = 'baseurl' ?>
-    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2') ?></label></td>
+    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2_extendido') ?></label></td>
     <td><input type="text" size="40" name="<?php echo $field ?>" value="<?php print $config->$field ?>" ><br>
     <?php if (isset($err[$field])) { echo $OUTPUT->notification($err[$field], 'notifyfailure'); } ?>
-        <?php print_string($field.'_help', 'auth_saml2') ?></td>
+        <?php print_string($field.'_help', 'auth_saml2_extendido') ?></td>
 </tr>
-<?php print_auth_lock_options('saml2', $userfields, '<!-- empty help -->', true, false, $this->get_custom_user_profile_fields()); ?>
+<tr valign="top">
+    <?php $field = 'unidad_academica' ?>
+    <td align="right"><label for="<?php echo $field ?>"><?php print_string($field, 'auth_saml2_extendido') ?></label></td>
+    <td><input type="text" size="40" name="<?php echo $field ?>" value="<?php print $config->$field ?>" ><br>
+    <?php if (isset($err[$field])) { echo $OUTPUT->notification($err[$field], 'notifyfailure'); } ?>
+        <?php print_string($field.'_help', 'auth_saml2_extendido') ?></td>
+</tr>
+<?php print_auth_lock_options('saml2_extendido', $userfields, '<!-- empty help -->', true, false, $this->get_custom_user_profile_fields()); ?>
 </table>
 

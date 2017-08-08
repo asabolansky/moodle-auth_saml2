@@ -60,7 +60,7 @@ class store extends \SimpleSAML_Store {
 
         $query = '
             SELECT id, value
-              FROM {auth_samltwo_kvstore}
+              FROM {auth_samltwo_ext_kvstore}
              WHERE type = :type
                AND k = :k
                AND (expire IS NULL
@@ -126,12 +126,12 @@ class store extends \SimpleSAML_Store {
             'k' => $key,
         );
 
-        $record = $DB->get_record('auth_samltwo_kvstore', $find);
+        $record = $DB->get_record('auth_samltwo_ext_kvstore', $find);
         if ($record) {
             $data['id'] = $record->id;
-            $DB->update_record('auth_samltwo_kvstore', $data);
+            $DB->update_record('auth_samltwo_ext_kvstore', $data);
         } else {
-            $DB->insert_record('auth_samltwo_kvstore', $data);
+            $DB->insert_record('auth_samltwo_ext_kvstore', $data);
         }
     }
 
@@ -154,7 +154,7 @@ class store extends \SimpleSAML_Store {
             'k' => $key,
         );
 
-        $DB->delete_records('auth_samltwo_kvstore', $data);
+        $DB->delete_records('auth_samltwo_ext_kvstore', $data);
     }
 
     /**
@@ -162,7 +162,7 @@ class store extends \SimpleSAML_Store {
      */
     public function delete_expired() {
         global $DB;
-        $sql = 'DELETE FROM {auth_samltwo_kvstore}
+        $sql = 'DELETE FROM {auth_samltwo_ext_kvstore}
                  WHERE expire < :now';
         $params = array('now' => time());
 

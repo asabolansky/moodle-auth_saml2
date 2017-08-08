@@ -30,7 +30,7 @@ require_once($CFG->libdir.'/authlib.php');
  * @copyright  Brendan Heywood <brendan@catalyst-au.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class auth_plugin_saml2 extends auth_plugin_base {
+class auth_plugin_saml2_extendido extends auth_plugin_base {
 
     /**
      * @var $defaults The config defaults
@@ -51,7 +51,8 @@ class auth_plugin_saml2 extends auth_plugin_base {
         'showidplink'     => true,
         'alterlogout'     => '',
         'entityid_pers' => '',
-        'baseurl' => ''
+        'baseurl' => '',
+        'unidad_academica' => ''
     );
 
     /**
@@ -59,14 +60,14 @@ class auth_plugin_saml2 extends auth_plugin_base {
      */
     public function __construct() {
         global $CFG;
-        $this->defaults['idpdefaultname'] = get_string('idpnamedefault', 'auth_saml2');
-        $this->authtype = 'saml2';
+        $this->defaults['idpdefaultname'] = get_string('idpnamedefault', 'auth_saml2_extendido');
+        $this->authtype = 'saml2_extendido';
         $mdl = new moodle_url($CFG->wwwroot);
         $this->spname = $mdl->get_host();
         $this->certdir = "$CFG->dataroot/saml2/";
         $this->certpem = $this->certdir . $this->spname . '.pem';
         $this->certcrt = $this->certdir . $this->spname . '.crt';
-        $this->config = (object) array_merge($this->defaults, (array) get_config('auth/saml2') );
+        $this->config = (object) array_merge($this->defaults, (array) get_config('auth/saml2_extendido') );
     }
 
     /**
@@ -77,7 +78,7 @@ class auth_plugin_saml2 extends auth_plugin_base {
     private function log($msg) {
         if ($this->config->debug) {
             // @codingStandardsIgnoreStart
-            error_log('auth_saml2: ' . $msg);
+            error_log('auth_saml2_extendido: ' . $msg);
             // @codingStandardsIgnoreEnd
         }
     }
@@ -102,10 +103,10 @@ class auth_plugin_saml2 extends auth_plugin_base {
         }
 
         // The wants url may already be routed via login.php so don't re-re-route it.
-        if (strpos($wantsurl, '/auth/saml2/login.php')) {
+        if (strpos($wantsurl, '/auth/saml2_extendido/login.php')) {
             $wantsurl = new moodle_url($wantsurl);
         } else {
-            $wantsurl = new moodle_url('/auth/saml2/login.php', array('wants' => $wantsurl));
+            $wantsurl = new moodle_url('/auth/saml2_extendido/login.php', array('wants' => $wantsurl));
         }
 
         $conf = $this->config;
@@ -162,7 +163,7 @@ class auth_plugin_saml2 extends auth_plugin_base {
     public function error_page($msg) {
         global $PAGE, $OUTPUT, $SITE;
 
-        $logouturl = new moodle_url('/auth/saml2/logout.php');
+        $logouturl = new moodle_url('/auth/saml2_extendido/logout.php');
 
         $PAGE->set_course($SITE);
         $PAGE->set_url('/');
@@ -289,10 +290,38 @@ class auth_plugin_saml2 extends auth_plugin_base {
 
         $attributes = $auth->getAttributes();
 
+		//UNLP atributos del sso para verificar la ua y nro_inscripcion
+        //print_r($attributes);
+        $guarani_data = $attributes["guarani_data"][0];
+        $guarani_data = json_decode($guarani_data);
+        $ok=false;
+
+
+		if ($guarani_data->codigo) {
+                $guarani_uas = $guarani_data->datos;
+                foreach ($guarani_uas as $ua) {
+                        if ($ua->unidad_academica == $this->config->unidad_academica) {
+                                $ok=true; 
+                                $nro_inscripcion = $ua->nro_inscripcion;
+                                break;
+                        }
+                }
+
+        }
+        else {
+         echo $this->error_page(get_string('no_data','auth_saml2_extendido')); 
+        }
+
+        
+
         $attr = $this->config->idpattr;
-        if (empty($attributes[$attr]) ) {
+        /* No se controla si no se configuro un atributo para matchear, ya que solo se podria matchear con el nro_inscripcion dentro de guarani_data[x]
+         * if (empty($attributes[$attr]) ) {
             $this->error_page(get_string('noattribute', 'auth_saml2', $attr));
         }
+        */
+
+
 
         $user = null;
         foreach ($attributes[$attr] as $key => $uid) {
@@ -304,6 +333,10 @@ class auth_plugin_saml2 extends auth_plugin_base {
                 continue;
             }
         }
+
+		/* obtener por nro_inscripcion */
+        //$nro_inscripcion = 200700211; /*BORRAR! hardcodeado para probar*/
+        $user = $DB->get_record('user', array( 'idnumber' => $nro_inscripcion, 'deleted' => 0 ));
 
         // Prevent access to users who are suspended
         if ($user->suspended) {
@@ -367,7 +400,7 @@ class auth_plugin_saml2 extends auth_plugin_base {
     public function update_user_profile_fields(&$user, $attributes, $newuser = false) {
         global $CFG;
 
-        $mapconfig = get_config('auth/saml2');
+        $mapconfig = get_config('auth/saml2_extendido');
         $allkeys = array_keys(get_object_vars($mapconfig));
         $update = false;
 
@@ -462,7 +495,7 @@ class auth_plugin_saml2 extends auth_plugin_base {
     public function config_form($config, $err, $userfields) {
         $config = (object) array_merge($this->defaults, (array) $config );
         global $CFG, $OUTPUT;
-        include($CFG->dirroot.'/auth/saml2/settings.html');
+        include($CFG->dirroot.'/auth/saml2_extendido/settings.html');
     }
 
     /**
@@ -535,7 +568,7 @@ class auth_plugin_saml2 extends auth_plugin_base {
 
         foreach ($this->defaults as $key => $value) {
             if ($config->$key != $this->config->$key) {
-                set_config($key, $config->$key, 'auth/saml2');
+                set_config($key, $config->$key, 'auth/saml2_extendido');
                 $haschanged = true;
             }
         }

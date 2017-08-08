@@ -24,9 +24,9 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/_autoload.php');
-require_once("$CFG->dirroot/auth/saml2/auth.php");
+require_once("$CFG->dirroot/auth/saml2_extendido/auth.php");
 
-$saml2auth = new auth_plugin_saml2();
+$saml2auth = new auth_plugin_saml2_extendido();
 
 // Auto create unique certificates for this moodle SP.
 //
@@ -46,7 +46,7 @@ if (!file_exists($saml2auth->certpem) || !file_exists($saml2auth->certcrt)) {
     }
 }
 
-SimpleSAML_Configuration::setConfigDir("$CFG->dirroot/auth/saml2/config");
+SimpleSAML_Configuration::setConfigDir("$CFG->dirroot/auth/saml2_extendido/config");
 
 /**
  * Ensure that valid certificates exist.

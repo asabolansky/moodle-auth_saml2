@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die();
  * @param int $oldversion the version we are upgrading from
  * @return bool result
  */
-function xmldb_auth_saml2_upgrade($oldversion) {
+function xmldb_auth_saml2_extendido_upgrade($oldversion) {
     global $CFG, $DB;
 
     $dbman = $DB->get_manager();
@@ -38,7 +38,7 @@ function xmldb_auth_saml2_upgrade($oldversion) {
     if ($oldversion < 2016031701) {
 
         // Define table auth_saml2_vkstore to be created.
-        $table = new xmldb_table('auth_samltwo_kvstore');
+        $table = new xmldb_table('auth_samltwo_ext_kvstore');
 
         // Adding fields to table auth_saml2_vkstore.
         $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
@@ -59,11 +59,11 @@ function xmldb_auth_saml2_upgrade($oldversion) {
         }
 
         // Remove legacy tables not created by moodle.
-        $table = new xmldb_table('auth_saml_tableVersion');
+        $table = new xmldb_table('auth_saml_extendido_tableVersion');
         if ($dbman->table_exists($table)) {
             $dbman->drop_table($table);
         }
-        $table = new xmldb_table('auth_saml_kvstore');
+        $table = new xmldb_table('auth_saml_extendido_kvstore');
         if ($dbman->table_exists($table)) {
             $dbman->drop_table($table);
         }
@@ -87,11 +87,11 @@ function xmldb_auth_saml2_upgrade($oldversion) {
 
         // Set new config.
         foreach ($currentconfig as $key => $value) {
-            set_config($key, $value, 'auth/saml2');
+            set_config($key, $value, 'auth/saml2_extendido');
         }
 
         // Saml2 savepoint reached.
-        upgrade_plugin_savepoint(true, 2016080302, 'auth', 'saml2');
+        upgrade_plugin_savepoint(true, 2016080302, 'auth', 'saml2_extendido');
     }
 
     return true;
